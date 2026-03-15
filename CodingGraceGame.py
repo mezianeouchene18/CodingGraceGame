@@ -480,6 +480,7 @@ def silver_riddle_room(player_info_arg):
     item = "Silver Key"
     if item not in player_info_arg["inventory"]:
         player_info_arg["inventory"].append(item)
+        print("You found a Silver Key!")
 
     player_info_arg["choices"].append("Silver Riddle Room")
     show_player_info(player_info_arg)

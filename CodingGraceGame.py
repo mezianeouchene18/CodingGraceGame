@@ -439,7 +439,90 @@ def green_magic_room(player_info_arg):
         # The player lost — return to the adventure loop.
         print("The magician waves his hand and you are whisked away...\n")
         return "flee"
+    
+def golden_treasure_room(player_info_arg):
+    """A treasure room where greed can lead to victory or danger."""
+    print("\n=== GOLDEN TREASURE ROOM ===")
+    print("You enter a glowing chamber full of gold and a large chest.")
+    print("You may 'open' the chest or 'flee'.")
 
+    player_info_arg["location"] = "Golden Treasure Room"
+    player_info_arg["health"] -= 5
+
+    item = "Golden Coin"
+    if item not in player_info_arg["inventory"]:
+        player_info_arg["inventory"].append(item)
+        print("You found a Golden Coin!")
+
+    player_info_arg["choices"].append("Golden Treasure Room")
+    show_player_info(player_info_arg)
+
+    action = input("> ").strip().lower()
+
+    if action == "open":
+        you_won("The chest opens and reveals a legendary treasure")
+    elif "flee" in action:
+        return "flee"
+    else:
+        you_died("A hidden trap activates")
+
+    return player_info_arg
+
+
+def silver_riddle_room(player_info_arg):
+    """A silver chamber with a riddle."""
+    print("\n=== SILVER RIDDLE ROOM ===")
+    print("Riddle: What has keys but cannot open locks?")
+
+    player_info_arg["location"] = "Silver Riddle Room"
+    player_info_arg["health"] += 10
+
+    item = "Silver Key"
+    if item not in player_info_arg["inventory"]:
+        player_info_arg["inventory"].append(item)
+
+    player_info_arg["choices"].append("Silver Riddle Room")
+    show_player_info(player_info_arg)
+
+    action = input("> ").strip().lower()
+
+    if action == "piano":
+        print("Correct! You escape safely.")
+        return player_info_arg
+    elif "flee" in action:
+        return "flee"
+    else:
+        you_died("Wrong answer!")
+
+    return player_info_arg
+
+
+def black_shadow_room(player_info_arg):
+    """A dark room where only one path is safe."""
+    print("\n=== BLACK SHADOW ROOM ===")
+    print("Choose a direction: left, right, forward, or flee.")
+
+    player_info_arg["location"] = "Black Shadow Room"
+    player_info_arg["health"] -= 15
+
+    item = "Shadow Cloak"
+    if item not in player_info_arg["inventory"]:
+        player_info_arg["inventory"].append(item)
+
+    player_info_arg["choices"].append("Black Shadow Room")
+    show_player_info(player_info_arg)
+
+    action = input("> ").strip().lower()
+
+    if action == "left":
+        print("You found the safe path!")
+        return player_info_arg
+    elif "flee" in action:
+        return "flee"
+    else:
+        you_died("The shadows consume you.")
+
+    return player_info_arg
 
 # ===========================================================================
 # CONTROL FUNCTIONS
@@ -501,10 +584,8 @@ def start_new_adventure(player_info_arg):
 
     while True:
         print_new_dungeon()
-        print("You enter a room, and you see a red door to your left "
-              "and blue and green doors to your right.")
-        door_picked = input("Do you pick the red door, blue door, "
-                            "or green door? > ")
+        print("You enter a room, and you see six doors: red, blue, green, gold, silver, and black.")
+        door_picked = input("Which door do you choose? > ")
 
         # We compare only the first few characters so that inputs like
         # "red door", "blue", or "green one" all work.
@@ -516,9 +597,14 @@ def start_new_adventure(player_info_arg):
             room_result = blissful_ignorance_of_illusion_room(player_info_arg)
         elif door.startswith("green"):
             room_result = green_magic_room(player_info_arg)
+        elif door.startswith("gold"):
+            room_result = golden_treasure_room(player_info_arg)
+        elif door.startswith("silver"):
+            room_result = silver_riddle_room(player_info_arg)
+        elif door.startswith("black"):
+            room_result = black_shadow_room(player_info_arg)
         else:
-            print("Sorry, it's either 'red', 'blue', or 'green' as the "
-                  "answer. You're the weakest link, goodbye!")
+            print("Please enter one of the six door names.")
             # Continue the loop so the player can try again.
             continue
 

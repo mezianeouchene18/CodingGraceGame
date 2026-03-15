@@ -498,9 +498,10 @@ def silver_riddle_room(player_info_arg):
 
 
 def black_shadow_room(player_info_arg):
-    """A dark room where only one path is safe."""
+    """A dark room where only one choice leads to survival."""
     print("\n=== BLACK SHADOW ROOM ===")
-    print("Choose a direction: left, right, forward, or flee.")
+    print("You step into a black chamber filled with shifting shadows.")
+    print("Choose: left, right, forward, or flee.")
 
     player_info_arg["location"] = "Black Shadow Room"
     player_info_arg["health"] -= 15
@@ -508,19 +509,21 @@ def black_shadow_room(player_info_arg):
     item = "Shadow Cloak"
     if item not in player_info_arg["inventory"]:
         player_info_arg["inventory"].append(item)
+        print("You found a Shadow Cloak!")
 
     player_info_arg["choices"].append("Black Shadow Room")
+
     show_player_info(player_info_arg)
 
     action = input("> ").strip().lower()
 
     if action == "left":
-        print("You found the safe path!")
+        print("You follow the only safe path and escape the shadows.")
         return player_info_arg
     elif "flee" in action:
         return "flee"
     else:
-        you_died("The shadows consume you.")
+        you_died("The shadows consume you instantly.")
 
     return player_info_arg
 

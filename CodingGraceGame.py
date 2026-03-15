@@ -582,35 +582,28 @@ def start_new_adventure(player_info_arg):
         player_info_arg: The player state dictionary.
     """
 
-    while True:
-        print_new_dungeon()
-        print("You enter a room, and you see six doors: red, blue, green, gold, silver, and black.")
+    print_new_dungeon()
+        print("You see six doors: red, blue, green, gold, silver, and black.")
         door_picked = input("Which door do you choose? > ")
-
-        # We compare only the first few characters so that inputs like
-        # "red door", "blue", or "green one" all work.
         door = door_picked.strip().lower()
 
-        if door.startswith("red"):
+        if door.startswith('red'):
             room_result = painful_truth_of_reality_room(player_info_arg)
-        elif door.startswith("blue"):
+        elif door.startswith('blue'):
             room_result = blissful_ignorance_of_illusion_room(player_info_arg)
-        elif door.startswith("green"):
+        elif door.startswith('green'):
             room_result = green_magic_room(player_info_arg)
-        elif door.startswith("gold"):
+        elif door.startswith('gold'):
             room_result = golden_treasure_room(player_info_arg)
-        elif door.startswith("silver"):
+        elif door.startswith('silver'):
             room_result = silver_riddle_room(player_info_arg)
-        elif door.startswith("black"):
+        elif door.startswith('black'):
             room_result = black_shadow_room(player_info_arg)
         else:
             print("Please enter one of the six door names.")
-            # Continue the loop so the player can try again.
             continue
 
-        # If the room returned "flee", we loop back to the door choice.
-        # If it returned normally (Blue Room after the guard), we break out.
-        if room_result != "flee":
+        if room_result != 'flee':
             break
 
     return player_info_arg
